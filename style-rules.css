@@ -1,0 +1,33 @@
+.blocks {
+  break-inside: avoid;
+}
+
+.pagedjs_page:not(:first-of-type) {
+  --sidebar-width: 7.90rem;
+  --sidebar-background-color: #ffffff;
+  --main-width: calc(var(--content-width) - var(--sidebar-width));
+  --decorator-horizontal-margin: 0.2in;
+}
+
+body {
+    width: var(--content-width);
+    font-family: serif !important;
+    line-height: 1.4;
+}
+
+h3 {
+    font-weight: normal;
+}
+
+.date{
+    padding-top: calc(var(--row-blocks-padding-top) + 0.04rem)!important;
+    font-size: .8rem;
+}
+
+. details{
+    padding-top: calc(var(--row-blocks-padding-top) - 0.1rem)!important;v
+}
+
+/* table of contents, experiment */
+
+   <link type="text/css" rel="stylesheet" href="jquery.tocify.css" />
