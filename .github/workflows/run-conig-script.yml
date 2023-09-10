@@ -17,11 +17,11 @@ jobs:
       
     - name: Install the conig package
       run: |
-        install.packages('remotes')
-        remotes::install_github('conig/conig')
+        Rscript -e "install.packages('remotes')"
+        Rscript -e "remotes::install_github('conig/conig')"
 
     - name: Run conig::resume
       run: |
-        rscript -e 'conig::resume(path = "docs/index.html")'
+        Rscript -e 'conig::resume(path = "docs/index.html")'
 
         
