@@ -20,7 +20,7 @@ jobs:
     - name: Install the conig package
       run: |
         Rscript -e "install.packages('remotes')"
-        Rscript -e "remotes::install_github('conig/conig')"
+        Rscript -e "remotes::install_github('conig/jamesconigrave')"
 
     - name: Run conig::resume
       run: |
