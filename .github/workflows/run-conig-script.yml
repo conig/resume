@@ -19,7 +19,7 @@ jobs:
 
     - name: Install dependencies
       run: |
-        Rscript -e "install.packages(c('scholar', 'cranlogs', 'rcrossref', 'revtools', 'pak', 'pkgdepends'))"
+        Rscript -e "install.packages(c('scholar', 'cranlogs', 'rcrossref', 'revtools', 'pak', 'pkgdepends', 'pkgconfig'))"
       
     - name: Install the conig package
       run: |
