@@ -19,12 +19,12 @@ jobs:
 
     - name: Install dependencies
       run: |
-        Rscript -e "install.packages(c('scholar', 'cranlogs', 'rcrossref', 'revtools'))"
+        Rscript -e "install.packages(c('scholar', 'cranlogs', 'rcrossref', 'revtools', 'pak'))"
       
     - name: Install the conig package
       run: |
         Rscript -e "install.packages('remotes')"
-        Rscript -e "remotes::install_github('conig/jamesconigrave')"
+        Rscript -e "pak::pkg_install('conig/jamesconigrave')"
 
     - name: Run conig::resume
       run: |
