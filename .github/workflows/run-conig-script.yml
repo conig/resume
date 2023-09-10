@@ -8,6 +8,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      GITHUB_PAT: ${{ secrets.SECRETPAT }}  # Add this line
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
