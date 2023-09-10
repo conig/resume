@@ -20,9 +20,6 @@ jobs:
     - name: Install system dependencies (Ubuntu)
       run: sudo apt-get install -y libcurl4-openssl-dev
 
-    - name: Setup tmate session
-      uses: mxschmitt/action-tmate@v3
-
     - name: Install curl
       run: |
         Rscript -e "install.packages(c('curl'))"
