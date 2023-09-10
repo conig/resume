@@ -19,7 +19,7 @@ jobs:
 
     - name: Install pkgdeps
       run: |
-        Rscript -e "install.packages(c('pkgdepends'))"
+        Rscript -e "install.packages(c('pkgdepends', 'pkgcache', 'curl'))"
     - name: Install dependencies
       run: |
         Rscript -e "install.packages(c('scholar', 'cranlogs', 'rcrossref', 'revtools', 'pkgconfig', 'remotes'))"
