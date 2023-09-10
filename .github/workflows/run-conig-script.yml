@@ -3,6 +3,7 @@ name: Daily Run of conig::resume
 on:
   schedule:
     - cron: '0 0 * * *'  # Trigger at midnight
+  workflow_dispatch:     # Add manual dispatch
 
 jobs:
   build:
@@ -22,3 +23,5 @@ jobs:
     - name: Run conig::resume
       run: |
         rscript -e 'conig::resume(path = "docs/index.html")'
+
+        
