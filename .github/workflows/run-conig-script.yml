@@ -1,0 +1,24 @@
+name: Daily Run of conig::resume
+
+on:
+  schedule:
+    - cron: '0 0 * * *'  # Trigger at midnight
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+      
+    - name: Setup R Environment
+      uses: r-lib/actions/setup-r@v1
+      
+    - name: Install the conig package
+      run: |
+        install.packages('remotes')
+        remotes::install_github('conig/conig')
+
+    - name: Run conig::resume
+      run: |
+        rscript -e 'conig::resume(path = "docs/index.html")'
