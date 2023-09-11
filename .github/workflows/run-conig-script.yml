@@ -41,6 +41,9 @@ jobs:
       run: |
         Rscript -e "remotes::install_github('conig/jamesconigrave')"
 
+    - name: Create necessary directories
+      run: mkdir -p /home/runner/work/_temp/Library/conig//to_github/resume/docs
+      
     - name: Run conig::resume
       run: |
         Rscript -e 'conig::update_resume(path = "docs/index.html")'
