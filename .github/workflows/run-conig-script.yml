@@ -38,6 +38,6 @@ jobs:
 
     - name: Run conig::resume
       run: |
-        Rscript -e 'conig::update_resume(push = TRUE)'
+        Rscript -e 'conig::update_resume(path = "docs/index.html")'
 
         
