@@ -43,6 +43,11 @@ jobs:
 
     - name: Create necessary directories
       run: mkdir -p /home/runner/work/_temp/Library/conig//to_github/resume/docs
+
+    - name: Setup tmate session
+      uses: mxschmitt/action-tmate@v3
+      with:
+        detached: true
       
     - name: Run conig::resume
       run: |
