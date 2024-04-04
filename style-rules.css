@@ -25,9 +25,9 @@ h3 {
 }
 
 . details{
-    padding-top: calc(var(--row-blocks-padding-top) - 0.1rem)!important;v
+    padding-top: calc(var(--row-blocks-padding-top) - 0.1rem)!important;
 }
 
 /* table of contents, experiment */
 
-   <link type="text/css" rel="stylesheet" href="jquery.tocify.css" />
+   <link type="text/css" rel="stylesheet" href="jquery.tocify.css"/>
