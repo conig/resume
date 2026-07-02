@@ -14,7 +14,7 @@
 
 <meta name="date" content="2026-07-02" />
 
-<title>James Conigrave’s resume</title>
+<title>James H. Conigrave’s resume</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -83,12 +83,22 @@ if (window.hljs) {
 --line-strong: #9db6e9;
 --paper: #fcfcfb;
 --surface: #ffffff;
+--surface-rail: rgba(252, 252, 251, 0.96);
+--surface-hero: rgba(255, 255, 255, 0.9);
+--surface-content: rgba(255, 255, 255, 0.96);
+--surface-metrics: rgba(255, 255, 255, 0.92);
+--surface-border: rgba(32, 42, 49, 0.1);
+--surface-radius: 8px;
 --mist: #f2f6ff;
 --teal: #27b48a;
 --teal-deep: #166b58;
 --brass: #d7b21b;
 --clay: #b76212;
---shadow: 0 28px 80px rgba(16, 24, 28, 0.1);
+--shadow: 0 24px 68px rgba(16, 24, 28, 0.1);
+--elevation-rail: 0 22px 58px rgba(16, 24, 28, 0.11), 0 2px 8px rgba(16, 24, 28, 0.05);
+--elevation-hero: 0 30px 76px rgba(16, 24, 28, 0.13), 0 4px 14px rgba(16, 24, 28, 0.06);
+--elevation-content: 0 18px 48px rgba(16, 24, 28, 0.08), 0 1px 5px rgba(16, 24, 28, 0.04);
+--elevation-metrics: 0 34px 82px rgba(16, 24, 28, 0.16), 0 10px 24px rgba(16, 24, 28, 0.08), 0 1px 3px rgba(16, 24, 28, 0.06);
 --sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 --serif: Georgia, "Times New Roman", serif;
 }
@@ -154,18 +164,24 @@ min-height: 100vh;
 .resume-mainstack {
 min-width: 0;
 margin-left: calc(clamp(18rem, 20vw, 24rem) + 1.25rem);
+padding: 1rem clamp(1rem, 2vw, 2rem) 2rem 0;
 }
 .resume-hero {
 position: relative;
 display: grid;
-grid-template-columns: minmax(0, 1.02fr) minmax(18rem, 0.58fr);
+grid-template-columns: minmax(0, 0.95fr) minmax(21.5rem, 0.66fr);
 gap: clamp(1.8rem, 4.5vw, 5.25rem);
+max-width: 1180px;
+margin: 0 auto;
 min-height: clamp(540px, 72svh, 760px);
 padding: clamp(1.8rem, 4.2vw, 4.1rem) clamp(1.5rem, 5vw, 5rem);
 overflow: clip;
 background:
-linear-gradient(120deg, rgba(255, 255, 255, 0.96), rgba(255, 255, 255, 0.72) 58%, rgba(242, 246, 255, 0.98)),
+linear-gradient(120deg, rgba(255, 255, 255, 0.98), rgba(255, 255, 255, 0.78) 58%, rgba(242, 246, 255, 0.98)),
 repeating-linear-gradient(90deg, rgba(157, 182, 233, 0.13) 0 1px, transparent 1px 9.5vw);
+border: 1px solid var(--surface-border);
+border-radius: var(--surface-radius);
+box-shadow: var(--elevation-hero);
 }
 .resume-hero::before {
 position: absolute;
@@ -249,13 +265,18 @@ text-decoration: none;
 }
 .hero-evidence {
 align-self: center;
+justify-self: end;
 display: grid;
 gap: 1.2rem;
+width: min(100%, 24rem);
 min-width: 0;
 padding: clamp(1.4rem, 3vw, 2.3rem);
-background: rgba(255, 255, 255, 0.72);
-border: 1px solid rgba(157, 182, 233, 0.34);
-box-shadow: var(--shadow);
+background:
+linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(252, 252, 251, 0.86)),
+var(--surface-metrics);
+border: 0;
+border-radius: var(--surface-radius);
+box-shadow: var(--elevation-metrics);
 backdrop-filter: blur(14px);
 }
 #metrics h2 {
@@ -309,10 +330,11 @@ max-height: calc(100vh - 2rem);
 overflow: auto;
 padding: clamp(1.5rem, 3vw, 3rem) clamp(1.1rem, 2.4vw, 2rem);
 background:
-linear-gradient(180deg, rgba(242, 246, 255, 0.92), rgba(252, 252, 251, 0.96)),
-var(--mist);
-border: 1px solid rgba(32, 42, 49, 0.1);
-box-shadow: 0 18px 52px rgba(16, 24, 28, 0.08);
+linear-gradient(180deg, rgba(242, 246, 255, 0.9), rgba(252, 252, 251, 0.98)),
+var(--surface-rail);
+border: 1px solid var(--surface-border);
+border-radius: var(--surface-radius);
+box-shadow: var(--elevation-rail);
 backdrop-filter: blur(14px);
 scrollbar-color: rgba(39, 180, 138, 0.3) transparent;
 scrollbar-width: thin;
@@ -530,8 +552,12 @@ transform: scale(1.45);
 .resume-content {
 min-width: 0;
 max-width: 1180px;
-margin: 0 auto;
+margin: clamp(1rem, 2vw, 1.4rem) auto 0;
 padding: clamp(1.25rem, 3vw, 3rem) clamp(1.5rem, 4vw, 4rem) 7rem;
+background: var(--surface-content);
+border: 1px solid rgba(32, 42, 49, 0.08);
+border-radius: var(--surface-radius);
+box-shadow: var(--elevation-content);
 font-family: var(--sans);
 }
 .resume-section {
@@ -909,6 +935,7 @@ flex-direction: column;
 .resume-mainstack {
 order: 1;
 margin-left: 0;
+padding: 0;
 }
 .resume-hero,
 .resume-section,
@@ -922,8 +949,12 @@ display: grid;
 grid-template-columns: 1fr;
 }
 .resume-hero {
+margin: 0;
 min-height: auto;
 padding: 3.4rem 1.25rem 2.6rem;
+border: 0;
+border-radius: 0;
+box-shadow: none;
 overflow: hidden;
 }
 .resume-hero::after {
@@ -955,12 +986,21 @@ width: auto;
 min-height: auto;
 max-height: none;
 padding: 2rem 1.25rem 3rem;
-border-top: 1px solid var(--line);
 border-right: 0;
+border-bottom: 0;
+border-left: 0;
+border-radius: 0;
+border-top: 1px solid var(--line);
+box-shadow: none;
 }
 .resume-content {
 max-width: none;
+margin: 0;
 padding: 0 1.25rem 4rem;
+background: transparent;
+border: 0;
+border-radius: 0;
+box-shadow: none;
 }
 .section-heading h2 {
 max-width: 9em;
@@ -1023,7 +1063,7 @@ will-change: auto;
 
 
 
-<h1 class="title toc-ignore">James Conigrave’s resume</h1>
+<h1 class="title toc-ignore">James H. Conigrave’s resume</h1>
 <h4 class="author">James H. Conigrave</h4>
 <h4 class="date">2026-07-02</h4>
 
@@ -1073,16 +1113,15 @@ linkage</p>
 <p>Built with <a href="https://github.com/rstudio/pagedown">pagedown</a>
 in R. Google Scholar data retrieved with <a href="https://github.com/jkeirstead/scholar">scholar</a>. Source: <a href="https://github.com/conig/jamesconigrave/">GitHub</a>.</p>
 <p>This document updates daily: <a href="https://conigrave.com/resume">conigrave.com/resume</a>.</p>
-<p>Updated: 2026-07-02 13:24:29 AEDT</p>
+<p>Updated: 2026-07-02 14:07:31 AEDT</p>
 </div>
 </div>
 <div id="main" class="section level1">
 <h1>Main</h1>
 <div id="title" class="section level2">
-<h2>JAMES CONIGRAVE</h2>
-<div id="researcher-in-motivation-substance-use-and-public-health" class="section level3">
-<h3><strong>Researcher in motivation, substance use, and public
-health</strong></h3>
+<h2>JAMES H. CONIGRAVE</h2>
+<div id="motivation-substance-use-and-public-health" class="section level3">
+<h3><strong>Motivation, substance use, and public health</strong></h3>
 </div>
 </div>
 <div id="profile" class="section level2" data-icon="user">
