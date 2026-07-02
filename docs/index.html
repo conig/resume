@@ -914,6 +914,16 @@ display: none !important;
 padding-top: 0.85rem;
 padding-bottom: 0.85rem;
 }
+.publication-empty-state {
+padding: 1.1rem 0;
+color: var(--muted);
+border-top: 1px solid rgba(16, 24, 28, 0.1);
+font-size: 0.94rem;
+font-weight: 750;
+}
+.publication-empty-state[hidden] {
+display: none !important;
+}
 #docinfo {
 color: var(--muted);
 }
@@ -1113,7 +1123,7 @@ linkage</p>
 <p>Built with <a href="https://github.com/rstudio/pagedown">pagedown</a>
 in R. Google Scholar data retrieved with <a href="https://github.com/jkeirstead/scholar">scholar</a>. Source: <a href="https://github.com/conig/jamesconigrave/">GitHub</a>.</p>
 <p>This document updates daily: <a href="https://conigrave.com/resume">conigrave.com/resume</a>.</p>
-<p>Updated: 2026-07-02 14:45:29 AEDT</p>
+<p>Updated: 2026-07-02 14:54:08 AEDT</p>
 </div>
 </div>
 <div id="main" class="section level1">
@@ -1323,7 +1333,7 @@ Imputation. <em>CRAN</em>. <a href="https://CRAN.R-project.org/package=Conigrave
 <p>2017</p>
 </div>
 </div>
-<div id="peer-reviewed-publications" class="section level2" data-icon="file" data-alt-group="research-outputs" data-alt-group-title="Research outputs" data-alt-group-icon="file">
+<div id="peer-reviewed-publications" class="section level2" data-icon="file" data-alt-group="research-outputs" data-alt-group-title="Publications" data-alt-group-icon="file">
 <h2>Peer-reviewed publications</h2>
 <div id="ma-ansari-a-dawson-m-dzidowska-jh-conigrave-a-stearne-km-conigrave-m-tracy-s-wilson-n-hayman-d-wilson-l-bullen-j-perry-t-reynolds-j-dhu-ksk-lee-2026.-adapting-the-grog-appto-ask-aboriginal-and-torres-strait-islander-peoples-about-their-drinking-in-primary-healthcare-a-delphi-study.-drug-and-alcohol-review-45-5-e70171.-httpsdoi.org10.1111dar.70171" class="section level3">
 <h3>MA Ansari, A Dawson, M Dzidowska, <u>JH Conigrave</u>, A Stearne, KM
@@ -1876,7 +1886,7 @@ in close friendships. <em>Journal of Personality</em>, <em>85 (4),
 <p>2017</p>
 </div>
 </div>
-<div id="preprints" class="section level2" data-icon="file" data-alt-group="research-outputs" data-alt-group-title="Research outputs" data-alt-group-icon="file">
+<div id="preprints" class="section level2" data-icon="file" data-alt-group="research-outputs" data-alt-group-title="Publications" data-alt-group-icon="file">
 <h2>Preprints</h2>
 <div id="rp-vasconcellos-t-sanders-c-lonsdale-p-parker-jh-conigrave-m-noetel-2025.-moderating-effects-of-general-need-frustration-on-the-association-between-electronic-screen-use-and-adolescents-socio-emotional-problems.-osf.-httpsdoi.org10.31234osf.iohgpeb_v1" class="section level3">
 <h3>RP Vasconcellos, T Sanders, C Lonsdale, P Parker, <u>JH
@@ -1921,7 +1931,7 @@ photophlethysmography-based HRV devices. <em>PsyArXiv</em>. <a href="https://doi
 <p>2019</p>
 </div>
 </div>
-<div id="research-translation" class="section level2" data-icon="quote-left" data-concise="true" data-alt-group="research-outputs" data-alt-group-title="Research outputs" data-alt-group-icon="file">
+<div id="research-translation" class="section level2" data-icon="quote-left" data-concise="true" data-alt-group="research-outputs" data-alt-group-title="Publications" data-alt-group-icon="file">
 <h2>Research translation</h2>
 <div id="c-puljevic-hm-haydon-cl-snoswell-2020.-commentary-on-conigrave-et-al.-2020-meta-analysis-of-drinking-patterns-in-aboriginal-and-torres-strait-islander-populations-highlights-policy-and-research-opportunities.-addiction." class="section level3">
 <h3>C Puljevic, HM Haydon, CL Snoswell (2020). Commentary on Conigrave
@@ -2579,6 +2589,12 @@ self-esteem and negative outcomes. <em>Self Conference</em></h3>
       itemWrap.insertBefore(heading, entry);
     });
 
+    var empty = document.createElement("div");
+    empty.className = "publication-empty-state";
+    empty.textContent = "No publications match this search.";
+    empty.hidden = true;
+    itemWrap.appendChild(empty);
+
     var tools = document.createElement("div");
     tools.className = "publication-tools";
     var input = document.createElement("input");
@@ -2610,6 +2626,8 @@ self-esteem and negative outcomes. <em>Self Conference</em></h3>
       });
       clear.hidden = !query;
       itemWrap.classList.toggle("is-filtering", Boolean(query));
+      itemWrap.classList.toggle("has-no-filter-results", Boolean(query) && visible === 0);
+      empty.hidden = !query || visible > 0;
       window.dispatchEvent(new CustomEvent("resumePublicationFilterChange"));
     };
 
