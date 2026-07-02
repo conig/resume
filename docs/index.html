@@ -90,7 +90,9 @@ if (window.hljs) {
 --surface-border: rgba(32, 42, 49, 0.1);
 --surface-radius: 8px;
 --mist: #f2f6ff;
---teal: #27b48a;
+--teal: #4ff0c8;
+--teal-highlight: #d8fff5;
+--teal-dim: #24987d;
 --teal-deep: #166b58;
 --brass: #d7b21b;
 --clay: #b76212;
@@ -101,6 +103,10 @@ if (window.hljs) {
 --elevation-metrics: 0 34px 82px rgba(16, 24, 28, 0.16), 0 10px 24px rgba(16, 24, 28, 0.08), 0 1px 3px rgba(16, 24, 28, 0.06);
 --sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 --serif: Georgia, "Times New Roman", serif;
+--link-text: var(--teal-deep);
+--link-accent: var(--teal);
+--link-hover: var(--teal-highlight);
+--link-visited: var(--teal-dim);
 }
 * {
 box-sizing: border-box;
@@ -133,15 +139,30 @@ body > .date,
 display: none;
 }
 a {
-color: var(--teal-deep);
-text-decoration-color: rgba(39, 180, 138, 0.3);
+color: var(--link-text);
+text-decoration-color: color-mix(in srgb, var(--link-accent) 52%, transparent);
 text-decoration-thickness: 1px;
 text-underline-offset: 0.22em;
-transition: color 160ms ease, text-decoration-color 160ms ease;
+transition: background-size 160ms ease, color 160ms ease, text-decoration-color 160ms ease;
+}
+a:visited {
+color: var(--link-visited);
 }
 a:hover {
-color: var(--clay);
-text-decoration-color: rgba(183, 98, 18, 0.55);
+color: var(--link-text);
+background-image: linear-gradient(var(--link-hover), var(--link-hover));
+background-position: 0 88%;
+background-repeat: no-repeat;
+background-size: 100% 0.45em;
+text-decoration-color: color-mix(in srgb, var(--link-accent) 78%, transparent);
+}
+a:active {
+color: var(--link-visited);
+text-decoration-color: color-mix(in srgb, var(--link-visited) 78%, transparent);
+}
+::selection {
+color: var(--ink);
+background: var(--teal-highlight);
 }
 h1,
 h2,
@@ -248,20 +269,32 @@ align-items: center;
 width: fit-content;
 margin-top: 0.55rem;
 padding: 0.64rem 0.9rem;
-color: var(--surface);
-background: var(--teal-deep);
-border: 1px solid rgba(32, 42, 49, 0.18);
+color: var(--link-text);
+background: color-mix(in srgb, var(--link-accent) 14%, var(--surface));
+border: 1px solid color-mix(in srgb, var(--link-accent) 48%, transparent);
 font-size: 0.78rem;
 font-weight: 900;
 line-height: 1;
 text-decoration: none;
 text-transform: uppercase;
-box-shadow: 0 10px 28px rgba(32, 42, 49, 0.14);
+box-shadow: 0 10px 28px rgba(32, 42, 49, 0.1);
+transition: background 160ms ease, border-color 160ms ease, box-shadow 160ms ease, color 160ms ease;
+}
+.hero-download:visited {
+color: var(--link-visited);
 }
 .hero-download:hover {
-color: var(--surface);
-background: var(--clay);
+color: var(--link-text);
+background: var(--link-hover);
+border-color: var(--link-accent);
+background-image: none;
 text-decoration: none;
+box-shadow: 0 12px 30px rgba(32, 42, 49, 0.13);
+}
+.hero-download:active {
+color: var(--surface);
+background: var(--link-visited);
+border-color: var(--link-visited);
 }
 .hero-evidence {
 align-self: center;
@@ -464,7 +497,8 @@ transition: background 160ms ease, transform 160ms ease;
 }
 .resume-nav a:hover,
 .resume-nav a.is-active {
-color: var(--teal-deep);
+color: var(--link-text);
+background-image: none;
 }
 .resume-nav a.is-active::before {
 background: var(--brass);
@@ -535,10 +569,11 @@ text-decoration: none;
 display: none;
 }
 .publication-year-nav a:hover {
-color: var(--teal-deep);
+color: var(--link-text);
+background-image: none;
 }
 .publication-year-nav a.is-year-active {
-color: var(--teal-deep);
+color: var(--link-text);
 font-weight: 950;
 }
 .publication-year-nav li.is-year-active::before {
@@ -743,9 +778,6 @@ font-weight: 800;
 .resume-entry em {
 color: var(--ink-soft);
 }
-.resume-entry:hover h3 {
-color: var(--teal-deep);
-}
 .citation-record .citation-main {
 display: grid;
 gap: 0.32rem;
@@ -792,9 +824,6 @@ font-size: 0.86rem;
 .citation-record .citation-identifier a {
 font-weight: 750;
 overflow-wrap: anywhere;
-}
-.citation-record:hover .citation-title {
-color: var(--teal-deep);
 }
 .resume-section.is-dense .section-items {
 gap: 0.25rem;
@@ -862,8 +891,8 @@ transition: border-color 160ms ease, box-shadow 160ms ease;
 color: rgba(101, 113, 122, 0.82);
 }
 .publication-tools input:focus {
-border-bottom-color: var(--teal-deep);
-box-shadow: 0 1px 0 var(--teal-deep);
+border-bottom-color: var(--link-text);
+box-shadow: 0 1px 0 var(--link-accent);
 }
 .publication-tools button {
 padding: 0.35rem 0 0.48rem;
@@ -878,9 +907,9 @@ text-transform: uppercase;
 cursor: pointer;
 }
 .publication-tools button:hover {
-color: var(--teal-deep);
+color: var(--link-text);
 background: transparent;
-border-bottom-color: rgba(39, 180, 138, 0.42);
+border-bottom-color: color-mix(in srgb, var(--link-accent) 48%, transparent);
 }
 .publication-year-break {
 display: flex;
@@ -1123,7 +1152,7 @@ linkage</p>
 <p>Built with <a href="https://github.com/rstudio/pagedown">pagedown</a>
 in R. Google Scholar data retrieved with <a href="https://github.com/jkeirstead/scholar">scholar</a>. Source: <a href="https://github.com/conig/jamesconigrave/">GitHub</a>.</p>
 <p>This document updates daily: <a href="https://conigrave.com/resume">conigrave.com/resume</a>.</p>
-<p>Updated: 2026-07-02 15:02:18 AEDT</p>
+<p>Updated: 2026-07-02 15:11:39 AEDT</p>
 </div>
 </div>
 <div id="main" class="section level1">
