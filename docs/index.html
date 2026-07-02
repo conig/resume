@@ -90,12 +90,12 @@ if (window.hljs) {
 --surface-border: rgba(32, 42, 49, 0.1);
 --surface-radius: 8px;
 --mist: #f2f6ff;
---teal: #4ff0c8;
---teal-highlight: #d8fff5;
---teal-dim: #24987d;
---teal-deep: #166b58;
---brass: #d7b21b;
---clay: #b76212;
+--sc-accent-base: #0f4a32;
+--sc-accent-display: #287552;
+--sc-accent-highlight: #e8f2ed;
+--sc-accent-dim: #1d5f43;
+--spectrum-amber: #ebd88d;
+--spectrum-brown: #d08a56;
 --shadow: 0 24px 68px rgba(16, 24, 28, 0.1);
 --elevation-rail: 0 22px 58px rgba(16, 24, 28, 0.11), 0 2px 8px rgba(16, 24, 28, 0.05);
 --elevation-hero: 0 30px 76px rgba(16, 24, 28, 0.13), 0 4px 14px rgba(16, 24, 28, 0.06);
@@ -103,10 +103,13 @@ if (window.hljs) {
 --elevation-metrics: 0 34px 82px rgba(16, 24, 28, 0.16), 0 10px 24px rgba(16, 24, 28, 0.08), 0 1px 3px rgba(16, 24, 28, 0.06);
 --sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 --serif: Georgia, "Times New Roman", serif;
---link-text: var(--teal-deep);
---link-accent: var(--teal);
---link-hover: var(--teal-highlight);
---link-visited: var(--teal-dim);
+--link-text: var(--sc-accent-base);
+--link-accent: var(--sc-accent-base);
+--link-hover: var(--sc-accent-display);
+--link-visited: var(--sc-accent-dim);
+--section-accent: var(--sc-accent-dim);
+--section-accent-line: color-mix(in srgb, var(--section-accent) 42%, transparent);
+--section-accent-faint: color-mix(in srgb, var(--section-accent) 24%, transparent);
 }
 * {
 box-sizing: border-box;
@@ -140,29 +143,25 @@ display: none;
 }
 a {
 color: var(--link-text);
-text-decoration-color: color-mix(in srgb, var(--link-accent) 52%, transparent);
+text-decoration-color: currentColor;
 text-decoration-thickness: 1px;
 text-underline-offset: 0.22em;
-transition: background-size 160ms ease, color 160ms ease, text-decoration-color 160ms ease;
+transition: color 160ms ease, text-decoration-color 160ms ease;
 }
 a:visited {
 color: var(--link-visited);
 }
 a:hover {
-color: var(--link-text);
-background-image: linear-gradient(var(--link-hover), var(--link-hover));
-background-position: 0 88%;
-background-repeat: no-repeat;
-background-size: 100% 0.45em;
-text-decoration-color: color-mix(in srgb, var(--link-accent) 78%, transparent);
+color: var(--link-hover);
+text-decoration-color: currentColor;
 }
 a:active {
 color: var(--link-visited);
-text-decoration-color: color-mix(in srgb, var(--link-visited) 78%, transparent);
+text-decoration-color: currentColor;
 }
 ::selection {
 color: var(--ink);
-background: var(--teal-highlight);
+background: var(--sc-accent-highlight);
 }
 h1,
 h2,
@@ -208,7 +207,13 @@ box-shadow: var(--elevation-hero);
 position: absolute;
 inset: 0 auto 0 0;
 width: 0.36rem;
-background: linear-gradient(180deg, var(--teal), var(--brass), var(--clay));
+background: linear-gradient(
+180deg,
+var(--section-accent) 0%,
+var(--spectrum-amber) 50%,
+var(--spectrum-brown) 100%
+);
+animation: accent-brown-shift 16s ease-in-out infinite alternate;
 content: "";
 }
 .resume-hero::after {
@@ -245,7 +250,7 @@ overflow-wrap: normal;
 #title h3 {
 max-width: 45rem;
 margin: 0;
-color: var(--teal-deep);
+color: var(--section-accent);
 font-size: clamp(1rem, 1.35vw, 1.22rem);
 font-weight: 800;
 line-height: 1.28;
@@ -269,9 +274,9 @@ align-items: center;
 width: fit-content;
 margin-top: 0.55rem;
 padding: 0.64rem 0.9rem;
-color: var(--link-text);
-background: color-mix(in srgb, var(--link-accent) 14%, var(--surface));
-border: 1px solid color-mix(in srgb, var(--link-accent) 48%, transparent);
+color: var(--surface);
+background: var(--link-text);
+border: 1px solid var(--link-text);
 font-size: 0.78rem;
 font-weight: 900;
 line-height: 1;
@@ -281,13 +286,14 @@ box-shadow: 0 10px 28px rgba(32, 42, 49, 0.1);
 transition: background 160ms ease, border-color 160ms ease, box-shadow 160ms ease, color 160ms ease;
 }
 .hero-download:visited {
-color: var(--link-visited);
+color: var(--surface);
+background: var(--link-text);
+border-color: var(--link-text);
 }
 .hero-download:hover {
-color: var(--link-text);
+color: var(--surface);
 background: var(--link-hover);
-border-color: var(--link-accent);
-background-image: none;
+border-color: var(--link-hover);
 text-decoration: none;
 box-shadow: 0 12px 30px rgba(32, 42, 49, 0.13);
 }
@@ -313,8 +319,8 @@ box-shadow: var(--elevation-metrics);
 backdrop-filter: blur(14px);
 }
 #metrics h2 {
-margin-bottom: 1.3rem;
-color: var(--teal-deep);
+margin-bottom: 0.15rem;
+color: var(--section-accent);
 font-size: 0.76rem;
 font-weight: 900;
 text-transform: uppercase;
@@ -322,14 +328,14 @@ text-transform: uppercase;
 #metrics {
 display: grid;
 grid-template-columns: repeat(2, minmax(0, 1fr));
-gap: 1rem 1.25rem;
+gap: 0.55rem 1.25rem;
 }
 #metrics h2 {
 grid-column: 1 / -1;
 }
 .metric {
 min-width: 0;
-padding-top: 1rem;
+padding-top: 0.72rem;
 border-top: 1px solid rgba(16, 24, 28, 0.12);
 }
 .metric-value {
@@ -369,14 +375,14 @@ border: 1px solid var(--surface-border);
 border-radius: var(--surface-radius);
 box-shadow: var(--elevation-rail);
 backdrop-filter: blur(14px);
-scrollbar-color: rgba(39, 180, 138, 0.3) transparent;
+scrollbar-color: var(--section-accent-line) transparent;
 scrollbar-width: thin;
 }
 .resume-rail::-webkit-scrollbar {
 width: 0.45rem;
 }
 .resume-rail::-webkit-scrollbar-thumb {
-background: rgba(39, 180, 138, 0.3);
+background: var(--section-accent-line);
 border-radius: 999px;
 }
 .resume-rail::-webkit-scrollbar-track {
@@ -389,7 +395,7 @@ border-top: 1px solid var(--line);
 .resume-rail h2,
 .resume-nav-title {
 margin-bottom: 0.75rem;
-color: var(--teal-deep);
+color: var(--section-accent);
 font-size: 0.72rem;
 font-weight: 900;
 text-transform: uppercase;
@@ -423,7 +429,7 @@ width: 2.7rem;
 height: 2.7rem;
 place-items: center;
 color: var(--surface);
-background: var(--teal-deep);
+background: var(--section-accent);
 font-family: var(--serif);
 font-size: 0.82rem;
 font-weight: 700;
@@ -463,16 +469,24 @@ padding: 0 0 0.45rem 1.05rem;
 }
 .resume-progress {
 position: absolute;
-inset: 1.9rem auto 0 0;
+top: 1.9rem;
+left: 0;
 width: 2px;
-background: rgba(157, 182, 233, 0.38);
+height: 0;
+overflow: hidden;
+background: var(--section-accent-faint);
 }
 .resume-progress span {
 display: block;
 width: 3px;
 height: 0;
 margin-left: -0.5px;
-background: linear-gradient(180deg, var(--teal), var(--brass));
+background: linear-gradient(
+180deg,
+var(--section-accent) 0%,
+var(--spectrum-amber) 50%,
+var(--spectrum-brown) 100%
+);
 transition: height 180ms ease;
 }
 .resume-nav a {
@@ -491,17 +505,17 @@ top: 0.85rem;
 width: 0.38rem;
 height: 0.38rem;
 border-radius: 999px;
-background: rgba(157, 182, 233, 0.52);
+background: var(--section-accent-line);
 content: "";
 transition: background 160ms ease, transform 160ms ease;
 }
 .resume-nav a:hover,
 .resume-nav a.is-active {
-color: var(--link-text);
+color: var(--section-accent);
 background-image: none;
 }
 .resume-nav a.is-active::before {
-background: var(--brass);
+background: var(--spectrum-brown);
 transform: scale(1.45);
 }
 .publication-year-nav {
@@ -523,7 +537,7 @@ top: 0.22rem;
 bottom: 0.55rem;
 left: 0.46rem;
 width: 1px;
-background: rgba(157, 182, 233, 0.42);
+background: var(--section-accent-faint);
 content: "";
 }
 .resume-nav > a.is-active + .publication-year-nav {
@@ -541,7 +555,7 @@ left: -0.88rem;
 top: 0.72rem;
 width: 0.58rem;
 height: 1px;
-background: rgba(157, 182, 233, 0.58);
+background: var(--section-accent-line);
 content: "";
 transition: background 160ms ease, width 160ms ease;
 }
@@ -552,7 +566,7 @@ top: 0.58rem;
 width: 0.32rem;
 height: 0.32rem;
 border-radius: 999px;
-background: rgba(157, 182, 233, 0.48);
+background: var(--section-accent-line);
 content: "";
 transition: background 160ms ease, transform 160ms ease;
 }
@@ -569,19 +583,19 @@ text-decoration: none;
 display: none;
 }
 .publication-year-nav a:hover {
-color: var(--link-text);
+color: var(--section-accent);
 background-image: none;
 }
 .publication-year-nav a.is-year-active {
-color: var(--link-text);
+color: var(--section-accent);
 font-weight: 950;
 }
 .publication-year-nav li.is-year-active::before {
 width: 0.76rem;
-background: var(--brass);
+background: var(--section-accent);
 }
 .publication-year-nav li.is-year-active::after {
-background: var(--brass);
+background: var(--spectrum-brown);
 transform: scale(1.45);
 }
 .resume-content {
@@ -647,7 +661,7 @@ line-height: 1.02;
 .section-kicker {
 display: block;
 margin-bottom: 0.65rem;
-color: var(--brass);
+color: var(--spectrum-brown);
 font-size: 0.73rem;
 font-weight: 900;
 text-transform: uppercase;
@@ -704,11 +718,11 @@ align-items: baseline;
 justify-content: space-between;
 margin-bottom: 0.8rem;
 padding-bottom: 0.52rem;
-border-bottom: 2px solid rgba(215, 178, 27, 0.28);
+border-bottom: 2px solid var(--section-accent-faint);
 }
 .subsection-heading h3 {
 margin: 0;
-color: var(--teal-deep);
+color: var(--section-accent);
 font-family: var(--serif);
 font-size: clamp(1.1rem, 1.35vw, 1.42rem);
 font-weight: 700;
@@ -749,10 +763,36 @@ border-top: 0;
 padding-top: 0;
 }
 .entry-year {
-color: var(--teal-deep);
+color: var(--section-accent);
 font-size: 0.82rem;
 font-weight: 900;
 line-height: 1.2;
+}
+.entry-year-value,
+.entry-sidecar-item {
+display: block;
+}
+.entry-sidecar {
+display: grid;
+gap: 0.22rem;
+margin-top: 0.38rem;
+color: var(--muted);
+font-size: 0.72rem;
+font-weight: 760;
+line-height: 1.25;
+}
+.entry-sidecar-item {
+overflow-wrap: anywhere;
+}
+.entry-sidecar-item.is-amount {
+color: var(--ink-soft);
+font-weight: 860;
+}
+.entry-sidecar a {
+color: inherit;
+font-weight: 820;
+text-decoration-thickness: 1px;
+text-underline-offset: 0.18em;
 }
 .entry-body {
 min-width: 0;
@@ -771,11 +811,16 @@ margin-bottom: 0.35rem;
 color: var(--muted);
 font-size: 0.95rem;
 }
-.resume-entry .entry-note {
-color: var(--clay);
-font-weight: 800;
-}
 .resume-entry em {
+color: var(--ink-soft);
+}
+.entry-support-note {
+color: var(--muted);
+font-size: 0.9rem;
+font-weight: 560;
+line-height: 1.38;
+}
+.entry-context-line {
 color: var(--ink-soft);
 }
 .citation-record .citation-main {
@@ -848,6 +893,9 @@ font-size: 0.8rem;
 .resume-section.is-dense .resume-entry p {
 font-size: 0.86rem;
 }
+.resume-section.is-dense .entry-sidecar {
+font-size: 0.68rem;
+}
 .resume-section.is-dense .resume-subsections {
 gap: clamp(1.45rem, 2.4vw, 2.3rem);
 }
@@ -865,37 +913,92 @@ font-size: 1.08rem;
 max-height: none;
 }
 .publication-tools {
-display: grid;
-grid-template-columns: minmax(0, 1fr) auto;
-gap: 0.28rem 0.75rem;
-align-items: end;
+display: flex;
+gap: 0.35rem 0.75rem;
+align-items: flex-end;
 margin-top: clamp(1.2rem, 2.4vw, 2rem);
 padding-top: 0.95rem;
 border-top: 1px solid var(--line);
 }
+.publication-search-field {
+position: relative;
+display: grid;
+grid-template-columns: 1rem minmax(0, 1fr);
+flex: 0 1 13rem;
+gap: 0.55rem;
+align-items: center;
+max-width: 100%;
+padding: 0.34rem 0 0.48rem;
+color: var(--muted);
+cursor: text;
+transition: flex-basis 220ms ease, color 160ms ease;
+}
+.publication-search-field::before,
+.publication-search-field::after {
+position: absolute;
+right: 0;
+bottom: 0;
+left: 0;
+height: 1px;
+content: "";
+}
+.publication-search-field::before {
+background: var(--section-accent-line);
+}
+.publication-search-field::after {
+height: 2px;
+background: var(--section-accent);
+transform: scaleX(0);
+transform-origin: left center;
+transition: transform 220ms ease;
+}
+.publication-tools:focus-within .publication-search-field,
+.publication-tools.has-query .publication-search-field {
+flex: 1 1 16rem;
+color: var(--section-accent);
+}
+.publication-tools:focus-within .publication-search-field::after,
+.publication-tools.has-query .publication-search-field::after {
+transform: scaleX(1);
+}
+.publication-search-icon {
+position: relative;
+width: 0.78rem;
+height: 0.78rem;
+border: 2px solid currentColor;
+border-radius: 999px;
+opacity: 0.72;
+}
+.publication-search-icon::after {
+position: absolute;
+right: -0.34rem;
+bottom: -0.25rem;
+width: 0.42rem;
+height: 2px;
+background: currentColor;
+border-radius: 999px;
+transform: rotate(45deg);
+transform-origin: left center;
+content: "";
+}
 .publication-tools input {
 min-width: 0;
 width: 100%;
-padding: 0.35rem 0 0.48rem;
+padding: 0;
 color: var(--ink);
 background: transparent;
 border: 0;
-border-bottom: 1px solid rgba(157, 182, 233, 0.72);
 border-radius: 0;
 font: inherit;
 font-size: 0.95rem;
 outline: none;
-transition: border-color 160ms ease, box-shadow 160ms ease;
 }
 .publication-tools input::placeholder {
 color: rgba(101, 113, 122, 0.82);
 }
-.publication-tools input:focus {
-border-bottom-color: var(--link-text);
-box-shadow: 0 1px 0 var(--link-accent);
-}
 .publication-tools button {
-padding: 0.35rem 0 0.48rem;
+flex: 0 0 auto;
+padding: 0.34rem 0 0.48rem;
 color: var(--muted);
 background: transparent;
 border: 0;
@@ -905,11 +1008,12 @@ font-size: 0.72rem;
 font-weight: 900;
 text-transform: uppercase;
 cursor: pointer;
+transition: color 160ms ease, border-color 160ms ease;
 }
 .publication-tools button:hover {
-color: var(--link-text);
+color: var(--section-accent);
 background: transparent;
-border-bottom-color: color-mix(in srgb, var(--link-accent) 48%, transparent);
+border-bottom-color: var(--section-accent-line);
 }
 .publication-year-break {
 display: flex;
@@ -918,17 +1022,27 @@ justify-content: space-between;
 gap: 1rem;
 margin-top: 0.35rem;
 padding: 0.8rem 0 0.45rem;
-border-bottom: 2px solid rgba(215, 178, 27, 0.35);
+border-bottom: 2px solid var(--section-accent-faint);
 }
 .publication-year-break:first-child {
 margin-top: 0;
 }
 .publication-year-break span:first-child {
-color: var(--teal-deep);
+color: var(--section-accent);
 font-family: var(--serif);
 font-size: 1.45rem;
 font-weight: 700;
 line-height: 1;
+}
+@keyframes accent-brown-shift {
+from {
+filter: saturate(0.96) brightness(0.98);
+opacity: 0.92;
+}
+to {
+filter: saturate(1.04) brightness(1.03);
+opacity: 1;
+}
 }
 .publication-year-break span:last-child {
 color: var(--muted);
@@ -1057,9 +1171,6 @@ font-size: 0.92rem;
 #profile p {
 font-size: 1.08rem;
 }
-#metrics {
-grid-template-columns: 1fr;
-}
 .resume-section {
 padding: 2.6rem 0;
 }
@@ -1067,7 +1178,11 @@ padding: 2.6rem 0;
 gap: 0.45rem;
 }
 .publication-tools {
-grid-template-columns: 1fr auto;
+flex-wrap: wrap;
+}
+.publication-tools:focus-within .publication-search-field,
+.publication-tools.has-query .publication-search-field {
+flex-basis: 100%;
 }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -1152,7 +1267,7 @@ linkage</p>
 <p>Built with <a href="https://github.com/rstudio/pagedown">pagedown</a>
 in R. Google Scholar data retrieved with <a href="https://github.com/jkeirstead/scholar">scholar</a>. Source: <a href="https://github.com/conig/jamesconigrave/">GitHub</a>.</p>
 <p>This document updates daily: <a href="https://conigrave.com/resume">conigrave.com/resume</a>.</p>
-<p>Updated: 2026-07-02 15:11:39 AEDT</p>
+<p>Updated: 2026-07-02 23:18:14 AEDT</p>
 </div>
 </div>
 <div id="main" class="section level1">
@@ -1178,34 +1293,34 @@ reproducible evidence for policy and practice.</p>
 <h3><strong>Research Fellow</strong></h3>
 <p>Centre for Alcohol Policy Research, La Trobe University</p>
 <p>Bundoora, Vic</p>
-<p>Present - 2024</p>
+<p>2024–Present</p>
 </div>
 <div id="academic-lead-academic-workforce-secondment" class="section level3">
 <h3><strong>Academic Lead, Academic Workforce (Secondment)</strong></h3>
 <p>Office of the Provost, Australian Catholic University</p>
 <p>North Sydney, NSW</p>
-<p>2024 - 2023</p>
+<p>2023–2024</p>
 </div>
 <div id="research-fellow-1" class="section level3">
 <h3><strong>Research Fellow</strong></h3>
 <p>Institute for Positive Psychology and Education, Australian Catholic
 University</p>
 <p>North Sydney, NSW</p>
-<p>2024 - 2023</p>
+<p>2023–2024</p>
 </div>
 <div id="research-fellow-2" class="section level3">
 <h3><strong>Research Fellow</strong></h3>
 <p>Centre of Research Excellence: Indigenous Health + Alcohol, The
 University of Sydney</p>
 <p>Camperdown, NSW</p>
-<p>2022 - 2018</p>
+<p>2018–2022</p>
 </div>
 <div id="research-assistant" class="section level3">
 <h3><strong>Research Assistant</strong></h3>
 <p>Institute for Positive Psychology and Education, Australian Catholic
 University</p>
 <p>North Sydney, NSW</p>
-<p>2017 - 2015</p>
+<p>2015–2017</p>
 </div>
 </div>
 <div id="earlier-professional-roles" class="section level2" data-icon="suitcase" data-concise="true" data-alt-group="career" data-alt-group-title="Career" data-alt-group-icon="laptop">
@@ -1221,7 +1336,7 @@ University</p>
 <h3><strong>Mental Health Coordinator</strong></h3>
 <p>Sydney North Shore and Beaches Medicare Local</p>
 <p>Frenchs Forest, NSW</p>
-<p>2014 - 2013</p>
+<p>2013–2014</p>
 </div>
 </div>
 <div id="education" class="section level2" data-icon="graduation-cap" data-concise="true">
@@ -1231,7 +1346,7 @@ University</p>
 <p>Institute for Positive Psychology and Education, Australian Catholic
 University</p>
 <p>North Sydney, NSW</p>
-<p>2019 - 2015</p>
+<p>2015–2019</p>
 </div>
 <div id="certificate-iv-in-project-management" class="section level3">
 <h3><strong>Certificate IV in Project Management</strong></h3>
@@ -1243,13 +1358,13 @@ University</p>
 <h3><strong>Masters of Public Health</strong></h3>
 <p>The University of Sydney</p>
 <p>Camperdown, NSW</p>
-<p>2012 - 2011</p>
+<p>2011–2012</p>
 </div>
 <div id="ba-psychology-b-health" class="section level3">
 <h3><strong>BA Psychology &amp; B Health</strong></h3>
 <p>Macquarie University</p>
 <p>Macquarie, NSW</p>
-<p>2010 - 2007</p>
+<p>2007–2010</p>
 </div>
 </div>
 <div id="awards" class="section level2" data-icon="award" data-concise="true" data-alt-group="recognition-funding" data-alt-group-title="Recognition and funding" data-alt-group-icon="award">
@@ -1299,41 +1414,48 @@ Council</em></h3>
 <p>2019</p>
 </div>
 </div>
-<div id="research-supervision" class="section level2" data-icon="users">
-<h2>Research supervision</h2>
+<div id="hdr-supervision" class="section level2" data-icon="users">
+<h2>HDR supervision</h2>
+<div id="janani-rathnapala" class="section level3">
+<h3><strong>Janani Rathnapala</strong></h3>
+<p>Masters</p>
+<p>N/A</p>
+<p>2026–Present</p>
+<p>— Auxilary</p>
+</div>
 <div id="tim-weatherall" class="section level3">
 <h3><strong>Tim Weatherall</strong></h3>
 <p>PhD</p>
 <p>N/A</p>
-<p>Present - 2025</p>
-<p>— Auxiliary</p>
+<p>2025–Present</p>
+<p>— Primary</p>
 </div>
 <div id="tamika-galea" class="section level3">
 <h3><strong>Tamika Galea</strong></h3>
 <p>PhD</p>
 <p>N/A</p>
-<p>Present - 2025</p>
+<p>2025–Present</p>
 <p>— Auxiliary</p>
 </div>
 <div id="roberta-vasconcellos" class="section level3">
 <h3><strong>Roberta Vasconcellos</strong></h3>
 <p>PhD</p>
 <p>N/A</p>
-<p>2025 - 2020</p>
+<p>2020–2025</p>
 <p>— Auxiliary</p>
 </div>
 <div id="teagan-weatherall" class="section level3">
 <h3><strong>Teagan Weatherall</strong></h3>
 <p>PhD</p>
 <p>N/A</p>
-<p>2022 - 2019</p>
+<p>2019–2022</p>
 <p>— Auxiliary</p>
 </div>
 <div id="catherine-zheng" class="section level3">
 <h3><strong>Catherine Zheng</strong></h3>
 <p>MD project</p>
 <p>N/A</p>
-<p>2022 - 2018</p>
+<p>2018–2022</p>
 <p>— Auxiliary</p>
 </div>
 </div>
@@ -1978,19 +2100,19 @@ research opportunities. <em>Addiction</em>.</h3>
 <h3><strong>Addiction</strong></h3>
 <p>— 3 reviews</p>
 <p>N/A</p>
-<p>2024 - 2022</p>
+<p>2022–2024</p>
 </div>
 <div id="drug-and-alcohol-review" class="section level3">
 <h3><strong>Drug and Alcohol Review</strong></h3>
 <p>— 3 reviews</p>
 <p>N/A</p>
-<p>2024 - 2020</p>
+<p>2020–2024</p>
 </div>
 <div id="journal-of-ethnicity-in-substance-abuse" class="section level3">
 <h3><strong>Journal of Ethnicity in Substance Abuse</strong></h3>
 <p>— 3 reviews</p>
 <p>N/A</p>
-<p>2022 - 2019</p>
+<p>2019–2022</p>
 </div>
 <div id="australian-and-new-zealand-journal-of-psychiatry" class="section level3">
 <h3><strong>Australian and New Zealand Journal of
@@ -2014,7 +2136,7 @@ Psychiatry</strong></h3>
 <p>Early-Mid Career Researchers Subcommittee</p>
 <p>— Elected Chair in 2020</p>
 <p>N/A</p>
-<p>2022 - 2019</p>
+<p>2019–2022</p>
 </div>
 </div>
 <div id="presentations" class="section level2" data-icon="globe-asia">
@@ -2222,23 +2344,23 @@ self-esteem and negative outcomes. <em>Self Conference</em></h3>
   }
 
   function isDateText(text) {
-    return /^(Present|\d{4})(\s*-\s*(Present|\d{4}))?$/.test(text.trim());
+    return /^(Present|\d{4})(\s*[-–]\s*(Present|\d{4}))?$/.test(text.trim());
   }
 
   function displayDateText(text) {
     var value = text.trim();
-    var parts = value.split(/\s*-\s*/);
+    var parts = value.split(/\s*[-–]\s*/);
     if (parts.length !== 2) return value;
 
     var first = parts[0];
     var second = parts[1];
-    if (first === "Present") return second + " - Present";
-    if (second === "Present") return value;
+    if (first === "Present") return second + "–Present";
+    if (second === "Present") return first + "–Present";
 
     var firstYear = parseInt(first, 10);
     var secondYear = parseInt(second, 10);
-    if (isFinite(firstYear) && isFinite(secondYear) && firstYear > secondYear) {
-      return second + " - " + first;
+    if (isFinite(firstYear) && isFinite(secondYear)) {
+      return firstYear > secondYear ? second + "–" + first : first + "–" + second;
     }
 
     return value;
@@ -2368,14 +2490,6 @@ self-esteem and negative outcomes. <em>Self Conference</em></h3>
       dateParagraph.remove();
     }
 
-    paragraphs = directChildren(entry, "p");
-    paragraphs.forEach(function(p) {
-      var text = p.textContent.trim();
-      if (text.charCodeAt(0) === 8212 || text.indexOf("--") === 0) {
-        p.classList.add("entry-note");
-      }
-    });
-
     var h3 = directChildren(entry, "h3")[0];
     var headingNode = h3;
     if (h3 && citationSectionIds[sectionId]) {
@@ -2390,18 +2504,103 @@ self-esteem and negative outcomes. <em>Self Conference</em></h3>
     var body = document.createElement("div");
     body.className = "entry-body";
     if (headingNode) body.appendChild(headingNode);
+    var sidecarItems = [];
     directChildren(entry, "p").forEach(function(p) {
-      body.appendChild(p);
+      if (isEntryNoteText(p.textContent.trim())) {
+        stripEntryNotePrefix(p);
+        var noteText = p.textContent.trim();
+        if (shouldMergeEntryRole(sectionId, noteText, body)) {
+          mergeEntryRole(body, p);
+        } else if (isEntrySidecarText(noteText)) {
+          sidecarItems.push(p);
+        } else {
+          p.classList.add("entry-support-note");
+          body.appendChild(p);
+        }
+      } else {
+        body.appendChild(p);
+      }
     });
 
-    var date = document.createElement("div");
-    date.className = "entry-year";
-    date.textContent = year;
+    var date = buildEntryYear(year, sidecarItems);
 
     entry.classList.add("resume-entry", "resume-reveal");
     entry.innerHTML = "";
     entry.appendChild(date);
     entry.appendChild(body);
+  }
+
+  function isEntryNoteText(text) {
+    if (!text) return false;
+    return text.charCodeAt(0) === 8212 || text.indexOf("--") === 0;
+  }
+
+  function stripEntryNotePrefix(p) {
+    var first = p.firstChild;
+    if (first && first.nodeType === Node.TEXT_NODE) {
+      first.nodeValue = first.nodeValue.replace(/^\s*(?:\u2014|--)\s*/, "");
+    } else {
+      p.textContent = p.textContent.replace(/^\s*(?:\u2014|--)\s*/, "");
+    }
+  }
+
+  function isEntrySidecarText(text) {
+    return /^\$[\d,]+/.test(text) ||
+      /\b(downloads?|citations?|reviews?)\b/i.test(text);
+  }
+
+  function shouldMergeEntryRole(sectionId, text, body) {
+    return sectionId === "research-supervision" &&
+      text.length > 0 &&
+      text.length <= 36 &&
+      directChildren(body, "p").length > 0;
+  }
+
+  function mergeEntryRole(body, p) {
+    var paragraphs = directChildren(body, "p");
+    var target = paragraphs[paragraphs.length - 1];
+    target.classList.add("entry-context-line");
+    target.appendChild(document.createTextNode(" · "));
+    while (p.firstChild) target.appendChild(p.firstChild);
+  }
+
+  function buildEntryYear(year, sidecarItems) {
+    var date = document.createElement("div");
+    date.className = "entry-year";
+    var yearValue = document.createElement("span");
+    yearValue.className = "entry-year-value";
+    yearValue.textContent = year;
+    date.appendChild(yearValue);
+
+    if (sidecarItems.length > 0) {
+      var sidecar = document.createElement("div");
+      sidecar.className = "entry-sidecar";
+      sidecarItems.forEach(function(p) {
+        var item = document.createElement("span");
+        item.className = "entry-sidecar-item";
+        if (/^\$[\d,]+/.test(p.textContent.trim())) item.classList.add("is-amount");
+        appendSidecarItemContent(item, p);
+        sidecar.appendChild(item);
+      });
+      date.appendChild(sidecar);
+    }
+
+    return date;
+  }
+
+  function appendSidecarItemContent(item, p) {
+    var link = p.querySelector("a[href]");
+    if (link) {
+      var fullLink = document.createElement("a");
+      Array.prototype.slice.call(link.attributes).forEach(function(attr) {
+        fullLink.setAttribute(attr.name, attr.value);
+      });
+      fullLink.textContent = p.textContent.trim();
+      item.appendChild(fullLink);
+      return;
+    }
+
+    while (p.firstChild) item.appendChild(p.firstChild);
   }
 
   function countLabel(count) {
@@ -2626,15 +2825,22 @@ self-esteem and negative outcomes. <em>Self Conference</em></h3>
 
     var tools = document.createElement("div");
     tools.className = "publication-tools";
+    var field = document.createElement("label");
+    field.className = "publication-search-field";
+    var icon = document.createElement("span");
+    icon.className = "publication-search-icon";
+    icon.setAttribute("aria-hidden", "true");
     var input = document.createElement("input");
     input.type = "search";
     input.placeholder = "Search publications";
     input.setAttribute("aria-label", "Search publications");
+    field.appendChild(icon);
+    field.appendChild(input);
     var clear = document.createElement("button");
     clear.type = "button";
     clear.textContent = "Clear";
     clear.hidden = true;
-    tools.appendChild(input);
+    tools.appendChild(field);
     tools.appendChild(clear);
     headingDepth.appendChild(tools);
 
@@ -2654,6 +2860,7 @@ self-esteem and negative outcomes. <em>Self Conference</em></h3>
         heading.classList.toggle("is-filtered-out", !anyVisible);
       });
       clear.hidden = !query;
+      tools.classList.toggle("has-query", Boolean(query));
       itemWrap.classList.toggle("is-filtering", Boolean(query));
       itemWrap.classList.toggle("has-no-filter-results", Boolean(query) && visible === 0);
       empty.hidden = !query || visible > 0;
@@ -2881,7 +3088,10 @@ self-esteem and negative outcomes. <em>Self Conference</em></h3>
   }
 
   function activateNav(main) {
+    var nav = document.querySelector(".resume-nav");
     var links = Array.prototype.slice.call(document.querySelectorAll(".resume-nav > a"));
+    var progressBar = document.querySelector(".resume-progress span");
+    var progressTrack = progressBar ? progressBar.parentElement : null;
     var byId = {};
     links.forEach(function(link) {
       byId[link.getAttribute("href").slice(1)] = link;
@@ -2890,13 +3100,14 @@ self-esteem and negative outcomes. <em>Self Conference</em></h3>
       return Boolean(byId[section.id]);
     });
     var activeLink = null;
+    var requestProgressRefresh = function() {};
     var setActiveLink = function(link) {
       if (!link || link === activeLink) return;
       links.forEach(function(item) { item.classList.remove("is-active"); });
       activeLink = link;
       activeLink.classList.add("is-active");
+      requestProgressRefresh(20);
     };
-    setActiveLink(links[0] || null);
     var publicationSection = document.getElementById("peer-reviewed-publications");
     var publicationOwner = publicationSection ?
       publicationSection.closest(".resume-section") :
@@ -2948,15 +3159,66 @@ self-esteem and negative outcomes. <em>Self Conference</em></h3>
         setActivePublicationYear(link.dataset.year);
       });
     });
-    var progressBar = document.querySelector(".resume-progress span");
+
+    var parsePixel = function(value, fallback) {
+      var parsed = parseFloat(value);
+      return isFinite(parsed) ? parsed : fallback;
+    };
+
+    var navDotCenter = function(link) {
+      if (!link) return 0;
+      var linkRect = link.getBoundingClientRect();
+      var dotStyle = window.getComputedStyle ?
+        window.getComputedStyle(link, "::before") :
+        null;
+      if (!dotStyle) return linkRect.top + 13.5;
+
+      var dotTop = parsePixel(dotStyle.top, 13.5);
+      var dotHeight = parsePixel(dotStyle.height, 0);
+      if (!dotHeight) return linkRect.top + dotTop;
+      return linkRect.top + dotTop + dotHeight / 2;
+    };
+
+    var setProgressTrack = function() {
+      if (!nav || !progressTrack || !links.length) return 0;
+
+      var navRect = nav.getBoundingClientRect();
+      var firstCenter = navDotCenter(links[0]);
+      var lastCenter = navDotCenter(links[links.length - 1]);
+      var top = Math.max(0, firstCenter - navRect.top);
+      var trackHeight = Math.max(0, lastCenter - firstCenter);
+
+      progressTrack.style.top = top.toFixed(2) + "px";
+      progressTrack.style.height = trackHeight.toFixed(2) + "px";
+      return trackHeight;
+    };
+
     var updateProgress = function() {
       if (!progressBar || !activeLink) return;
-      var progressRect = progressBar.parentElement.getBoundingClientRect();
-      var linkRect = activeLink.getBoundingClientRect();
-      var dotCenter = linkRect.top + 13.5;
-      var height = Math.max(0, dotCenter - progressRect.top);
-      progressBar.style.height = height + "px";
+      var trackHeight = setProgressTrack();
+      var progressRect = progressTrack.getBoundingClientRect();
+      var dotCenter = navDotCenter(activeLink);
+      var height = Math.min(trackHeight, Math.max(0, dotCenter - progressRect.top));
+      progressBar.style.height = height.toFixed(2) + "px";
       updatePublicationYear();
+    };
+
+    var progressRefreshFrame = null;
+    var progressRefreshFrames = 0;
+    requestProgressRefresh = function(frameCount) {
+      progressRefreshFrames = Math.max(progressRefreshFrames, frameCount || 1);
+      if (progressRefreshFrame) return;
+
+      var step = function() {
+        progressRefreshFrame = null;
+        updateProgress();
+        progressRefreshFrames -= 1;
+        if (progressRefreshFrames > 0) {
+          progressRefreshFrame = window.requestAnimationFrame(step);
+        }
+      };
+
+      progressRefreshFrame = window.requestAnimationFrame(step);
     };
 
     var updateActiveSection = function() {
@@ -2980,6 +3242,25 @@ self-esteem and negative outcomes. <em>Self Conference</em></h3>
     window.addEventListener("resize", updateActiveSection);
     window.addEventListener("scroll", updateActiveSection, { passive: true });
     window.addEventListener("resumePublicationFilterChange", updateActiveSection);
+
+    document.querySelectorAll(".publication-year-nav").forEach(function(yearNav) {
+      yearNav.addEventListener("transitionrun", function() {
+        requestProgressRefresh(20);
+      });
+      yearNav.addEventListener("transitionstart", function() {
+        requestProgressRefresh(20);
+      });
+      yearNav.addEventListener("transitionend", function() {
+        requestProgressRefresh(3);
+      });
+    });
+
+    if ("ResizeObserver" in window && nav) {
+      var navObserver = new ResizeObserver(function() {
+        requestProgressRefresh(2);
+      });
+      navObserver.observe(nav);
+    }
   }
 
   onReady(function() {
