@@ -1235,7 +1235,7 @@ will-change: auto;
 <h1>Aside</h1>
 <!-- ![James](james_smaller.png){width=100%} -->
 <div id="contact" class="section level2">
-<h2>Contact</h2>
+<h2>Links</h2>
 <ul>
 <li><i class="fa fa-globe-asia"></i> <a href="https://conigrave.com">conigrave.com</a></li>
 <li><i class="fa fa-leaf"></i> <a href="https://www.scopus.com/authid/detail.uri?authorId=57207914919">scopus
@@ -1267,7 +1267,7 @@ linkage</p>
 <p>Built with <a href="https://github.com/rstudio/pagedown">pagedown</a>
 in R. Google Scholar data retrieved with <a href="https://github.com/jkeirstead/scholar">scholar</a>. Source: <a href="https://github.com/conig/jamesconigrave/">GitHub</a>.</p>
 <p>This document updates daily: <a href="https://conigrave.com/resume">conigrave.com/resume</a>.</p>
-<p>Updated: 2026-07-04 13:01:17 AEDT</p>
+<p>Updated: 2026-07-04 19:52:53 AEDT</p>
 </div>
 </div>
 <div id="main" class="section level1">
@@ -1383,7 +1383,7 @@ in the alcohol, tobacco and other drugs field.</p>
 <h2>Selected funding</h2>
 <div id="k-lee-s-wilson-n-hewlett-jh-conigrave-t-weatherall-m-dzidowska-k-glover-n-reid-k-black-m-tracy-2025.-bubsafe-co-creating-australias-first-integrated-digital-health-tool-to-prevent-alcohol-use-during-pregnancy-among-aboriginal-and-torres-strait-islander-peoples.-national-health-and-medical-research-council" class="section level3">
 <h3>K Lee, S Wilson, N Hewlett, <u>JH Conigrave</u>, T Weatherall, M
-Dzidowska, K Glover, N Reid, K Black, M Tracy, (2025). BubSafe’:
+Dzidowska, K Glover, N Reid, K Black, M Tracy, (2025). ‘BubSafe’:
 Co-creating Australia’s first integrated digital health tool to prevent
 alcohol use during pregnancy among Aboriginal and Torres Strait Islander
 peoples. <em>National Health and Medical Research Council</em></h3>
@@ -2440,7 +2440,7 @@ self-esteem and negative outcomes. <em>Self Conference</em></h3>
     mark.textContent = "JHC";
     var text = document.createElement("div");
     text.className = "rail-name";
-    text.innerHTML = "<strong>James H. Conigrave</strong><span>Academic CV</span>";
+    text.innerHTML = "<strong>James H. Conigrave</strong><span>Senior Research Fellow</span>";
     identity.appendChild(mark);
     identity.appendChild(text);
     return identity;
@@ -3128,9 +3128,18 @@ self-esteem and negative outcomes. <em>Self Conference</em></h3>
         }
       });
     };
+    var isPublicationSectionActive = function(marker) {
+      var sectionRect = publicationSection.getBoundingClientRect();
+      return sectionRect.top <= marker && sectionRect.bottom > marker;
+    };
     var updatePublicationYear = function() {
       if (!publicationSection || !yearLinks.length) return;
       if (!activeLink || activeLink.getAttribute("href") !== publicationOwnerHref) {
+        setActivePublicationYear("");
+        return;
+      }
+      var marker = Math.min(window.innerHeight * 0.42, 380);
+      if (!isPublicationSectionActive(marker)) {
         setActivePublicationYear("");
         return;
       }
@@ -3141,7 +3150,6 @@ self-esteem and negative outcomes. <em>Self Conference</em></h3>
         setActivePublicationYear("");
         return;
       }
-      var marker = Math.min(window.innerHeight * 0.42, 380);
       var currentEntry = null;
       visibleEntries.forEach(function(entry) {
         var rect = entry.getBoundingClientRect();
